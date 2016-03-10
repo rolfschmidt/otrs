@@ -84,27 +84,30 @@ sub _InstallOTRSExtensions {
                 my $BlockName = $stash->get('BlockName');
                 my $ParentBlock = $stash->get('ParentBlock') || $stash->{_BlockTree};
 
-                return if !exists $ParentBlock->{Children};
-                return if !exists $ParentBlock->{Children}->{$BlockName};
-
                 my $TemplateName = $stash->get('template')->{name} // '';
                 $TemplateName = substr( $TemplateName, 0, -3 );    # remove .tt extension
                 my $GenerateBlockHook =
                     $Context->{LayoutObject}->{_BlockHookSubscriptions}->{$TemplateName}->{$BlockName};
 
-                for my $TargetBlock ( @{ $ParentBlock->{Children}->{$BlockName} } ) {
-                    $output .= "<!--HookStart${BlockName}-->\n" if $GenerateBlockHook;
-                    $output .= $Context->process(
-                        $TargetBlock->{Path},
-                        {
-                            'Data'        => $TargetBlock->{Data},
-                            'ParentBlock' => $TargetBlock,
-                        },
-                    );
-                    $output .= "<!--HookEnd${BlockName}-->\n" if $GenerateBlockHook;
-                }
-                delete $ParentBlock->{Children}->{$BlockName};
+                if ( exists $ParentBlock->{Children} && exists $ParentBlock->{Children}->{$BlockName} ) {
+                    for my $TargetBlock ( @{ $ParentBlock->{Children}->{$BlockName} } ) {
+                        $output .= "<!--HookStart${BlockName}-->\n" if $GenerateBlockHook;
+                        $output .= $Context->process(
+                            $TargetBlock->{Path},
+                            {
+                                'Data'        => $TargetBlock->{Data},
+                                'ParentBlock' => $TargetBlock,
+                            },
+                        );
+                        $output .= "<!--HookEnd${BlockName}-->\n" if $GenerateBlockHook;
+                    }
 
+                    delete $ParentBlock->{Children}->{$BlockName};
+                }
+                elsif ( $GenerateBlockHook ) {
+                    $output .= "<!--HookStart${BlockName}-->\n";
+                    $output .= "<!--HookEnd${BlockName}-->\n";
+                }
             };
             $stash = $Context->delocalise();
 
