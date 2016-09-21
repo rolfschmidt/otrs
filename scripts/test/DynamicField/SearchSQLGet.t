@@ -296,7 +296,7 @@ my @Tests = (
             },
         },
         ExpectedResult => {
-            Empty             => " (dfv.value_int IS NULL OR dfv.value_int = 0) ",
+            Empty             => " dfv.value_int IS NULL ",
             Equals            => " dfv.value_int = 123 ",
             GreaterThan       => undef,
             GreaterThanEquals => undef,
@@ -321,7 +321,7 @@ my @Tests = (
             },
         },
         ExpectedResult => {
-            Empty            => " dfv.value_text IS NULL ",
+            Empty            => " dfv.value_text IS NULL OR dfv.value_text = '' ",
             Equals            => " dfv.value_text = 'Foo' ",
             GreaterThan       => " dfv.value_text > 'Foo' ",
             GreaterThanEquals => " dfv.value_text >= 'Foo' ",
@@ -348,7 +348,7 @@ my @Tests = (
             },
         },
         ExpectedResult => {
-            Empty             => " dfv.value_text IS NULL ",
+            Empty             => " dfv.value_text IS NULL OR dfv.value_text = '' ",
             Equals            => " dfv.value_text = 'Foo' ",
             GreaterThan       => " dfv.value_text > 'Foo' ",
             GreaterThanEquals => " dfv.value_text >= 'Foo' ",

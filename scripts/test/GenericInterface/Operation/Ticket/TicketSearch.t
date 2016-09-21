@@ -1468,13 +1468,13 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                TicketID => [ $TicketID1, $TicketID3, $TicketID4 ],
+                TicketID => [ $TicketID3, $TicketID4 ],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                TicketID => [ $TicketID1, $TicketID3, $TicketID4, ],
+                TicketID => [ $TicketID3, $TicketID4 ],
             },
             Success => 1,
         },
