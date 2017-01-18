@@ -62,7 +62,7 @@ convert a html string to an ascii string
 
 sub ToAscii {
     my ( $Self, %Param ) = @_;
-
+    
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
@@ -79,7 +79,7 @@ sub ToAscii {
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Param{String} );
 
     # get length of line for forcing line breakes
-    my $LineLength = $Self->{'Ticket::Frontend::TextAreaNote'} || 78;
+    my $LineLength = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::TextAreaNote') || 78;
 
     # find <a href=....> and replace it with [x]
     my $LinkList = '';
