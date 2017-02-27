@@ -70,7 +70,7 @@ sub new {
 
 To send an email without already created header:
 
-    my $Sent = $SendObject->Send(
+    my @Sent = $SendObject->Send(
         From          => 'me@example.com',
         To            => 'friend@example.com',
         Cc            => 'Some Customer B <customer-b@example.com>',   # not required
@@ -105,7 +105,7 @@ To send an email without already created header:
         }
     );
 
-    my $Sent = $SendObject->Send(                   (Backwards compatibility)
+    my @Sent = $SendObject->Send(                   (Backwards compatibility)
         From                 => 'me@example.com',
         To                   => 'friend@example.com',
         Subject              => 'Some words!',
@@ -129,7 +129,7 @@ To send an email without already created header:
         },
     );
 
-    if ($Sent) {
+    if (@Sent) {
         print "Email sent!\n";
     }
     else {
