@@ -53,7 +53,7 @@ construct a helper object.
                                                     # yourself.
         },
     );
-    my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+    my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 =cut
 
@@ -147,7 +147,7 @@ creates a test user that can be used in tests. It will
 be set to invalid automatically during the destructor. Returns
 the login name of the new user, the password is the same.
 
-    my $TestUserLogin = $Helper->TestUserCreate(
+    my $TestUserLogin = $HelperObject->TestUserCreate(
         Groups => ['admin', 'users'],           # optional, list of groups to add this user to (rw rights)
         Language => 'de'                        # optional, defaults to 'en' if not set
     );
@@ -237,7 +237,7 @@ creates a test customer user that can be used in tests. It will
 be set to invalid automatically during the destructor. Returns
 the login name of the new customer user, the password is the same.
 
-    my $TestUserLogin = $Helper->TestCustomerUserCreate(
+    my $TestUserLogin = $HelperObject->TestCustomerUserCreate(
         Language => 'de',   # optional, defaults to 'en' if not set
     );
 
@@ -295,7 +295,7 @@ sub TestCustomerUserCreate {
 
 =head2 BeginWork()
 
-    $Helper->BeginWork()
+    $HelperObject->BeginWork()
 
 Starts a database transaction (in order to isolate the test from the static database).
 
@@ -310,7 +310,7 @@ sub BeginWork {
 
 =head2 Rollback()
 
-    $Helper->Rollback()
+    $HelperObject->Rollback()
 
 Rolls back the current database transaction.
 
@@ -580,7 +580,7 @@ This will be reset when the Helper object is destroyed.
 
 Please note that this will not work correctly in clustered environments.
 
-    $Helper->ConfigSettingChange(
+    $HelperObject->ConfigSettingChange(
         Valid => 1,            # (optional) enable or disable setting
         Key   => 'MySetting',  # setting name
         Value => { ... } ,     # setting value
