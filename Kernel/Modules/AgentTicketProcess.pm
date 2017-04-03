@@ -279,6 +279,7 @@ sub Run {
         ReturnSubType => '-',
         Data          => \%ProcessListACL,
         Action        => $Self->{Action},
+        TicketID      => $Self->{TicketID},
         UserID        => $Self->{UserID},
     );
 
