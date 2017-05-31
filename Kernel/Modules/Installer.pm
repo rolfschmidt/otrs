@@ -39,15 +39,12 @@ sub Run {
 
     # check secure mode
     if ( $ConfigObject->Get('SecureMode') ) {
-        print $LayoutObject->Header();
-        print $LayoutObject->Error(
+        return $LayoutObject->ErrorScreen(
             Message => Translatable('SecureMode active!'),
             Comment => Translatable(
                 'If you want to re-run the Installer, disable the SecureMode in the SysConfig.'
             ),
         );
-        print $LayoutObject->Footer();
-        return;
     }
 
     # Check environment directories.
