@@ -571,12 +571,7 @@ sub TicketCreate {
 
     # substitute title if needed
     else {
-        # Truncate ticket title to 255 bytes.
-        my $Title = Encode::encode( 'utf8', $Param{Title} );
-        if ( length $Title > 255 ) {
-            $Title = substr $Title, 0, 255;
-        }
-        $Param{Title} = Encode::decode( 'utf8', $Title );
+        $Param{Title} = substr( $Param{Title}, 0, 255 );
     }
 
     # check database undef/NULL (set value to undef/NULL to prevent database errors)
