@@ -1,6 +1,7 @@
 #7.0.0.alpha1 2018-??-??
 
 #6.0.0.rc1 2017-??-??
+ - 2017-11-06 Fixed bug#[13206](https://bugs.otrs.org/show_bug.cgi?id=13206) - Dashboard does not detect expired sessions.
  - 2017-11-03 Submit with Ctrl/CMD + Enter in textareas, thanks to Perleone.
  - 2017-11-03 Fixed bug#[13261](https://bugs.otrs.org/show_bug.cgi?id=13261) - Limit hit when installing ITSM package on MySQL.
  - 2017-11-03 Fixed bug#[13271](https://bugs.otrs.org/show_bug.cgi?id=13271) - Breadcrumb for a specific SysConfig setting name garbles its encoding.
