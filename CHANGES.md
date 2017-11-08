@@ -1,6 +1,7 @@
 #7.0.0.alpha1 2018-??-??
 
 #6.0.1 2017-??-??
+ - 2017-11-08 Fixed bug#[13292](https://bugs.otrs.org/show_bug.cgi?id=13292) - Internal Server Error in ticket screens with missing articles in the file system.
 
 #6.0.0.rc1 2017-11-14
  - 2017-11-06 Updated translations, thanks to all translators.
