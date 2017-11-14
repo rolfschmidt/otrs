@@ -1,6 +1,7 @@
 #7.0.0.alpha1 2018-??-??
 
 #6.0.1 2017-??-??
+ - 2017-11-13 Fixed bug#[13108](https://bugs.otrs.org/show_bug.cgi?id=13108) - Debugger only shows information if HTTP response was 20x.
  - 2017-11-13 Updated translations, thanks to all translators.
  - 2017-11-13 Fixed bug#[13330](https://bugs.otrs.org/show_bug.cgi?id=13330) - Postmaster filter from sysconfig are not working and stops working.
  - 2017-11-13 Fixed bug#[13317](https://bugs.otrs.org/show_bug.cgi?id=13317) - Wrong avatar offset in user preferences.
