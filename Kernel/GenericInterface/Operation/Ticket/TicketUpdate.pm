@@ -2270,8 +2270,8 @@ sub _TicketUpdate {
 
     # add attachment if the request includes attachments
     if ( IsArrayRefWithData($AttachmentList) ) {
-        my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
-            ArticleID => $ArticleData{ArticleID},
+        my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID => $ArticleID,
         );
 
         my @Attachments;
@@ -2279,8 +2279,8 @@ sub _TicketUpdate {
         ATTACHMENT:
         for my $FileID ( sort keys %AttachmentIndex ) {
             next ATTACHMENT if !$FileID;
-            my %Attachment = $TicketObject->ArticleAttachment(
-                ArticleID => $ArticleData{ArticleID},
+            my %Attachment = $ArticleBackendObject->ArticleAttachment(
+                ArticleID => $ArticleID,
                 FileID    => $FileID,
             );
 
