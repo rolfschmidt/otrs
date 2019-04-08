@@ -1324,6 +1324,11 @@ sub _GetChecks {
         # get queue object
         my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
 
+        # use queue data (if given)
+        if ( $Param{NewQueueID} && !$Param{QueueID} ) {
+            $Param{QueueID} = $Param{NewQueueID};
+        }
+
         if ( $Param{QueueID} ) {
             my %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
             $Checks{Queue} = \%Queue;
