@@ -55,6 +55,8 @@ Example to restrict ticket actions:
 
         QueueID          => 123,                      # Optional
         Queue            => 'some queue name',        # Optional
+        NewQueueID       => 123,                      # Optional, QueueID or NewQueueID can be
+                                                      #   used and they both refers to QueueID
 
         ServiceID        => 123,                      # Optional
         Service          => 'some service name',      # Optional
