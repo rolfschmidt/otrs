@@ -272,6 +272,7 @@ sub Run {
                 $To         = $Queue;
             }
         }
+        $GetParam{NewQueueID} = $NewQueueID;
 
         # use default if ticket type is not available in screen but activated on system
         if ( $ConfigObject->Get('Ticket::Type') && !$Config->{'TicketType'} ) {
