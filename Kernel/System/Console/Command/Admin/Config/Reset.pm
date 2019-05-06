@@ -16,9 +16,7 @@ use Kernel::System::VariableCheck qw( IsHashRefWithData );
 use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
-    'Kernel::System::Main',
     'Kernel::System::SysConfig',
-    'Kernel::System::YAML',
 );
 
 sub Configure {
