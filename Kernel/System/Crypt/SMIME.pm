@@ -695,7 +695,7 @@ sub _CheckCertificateList {
     my ( $Self, %Param ) = @_;
 
     my @CertList = @{ $Param{CertificateList} };
-    my $Search   = $Param{Search} || '';
+    my $Search = $Param{Search} || '';
     $Param{Valid} //= 0;
 
     my @Result;
@@ -703,7 +703,7 @@ sub _CheckCertificateList {
     FILE:
     for my $Filename (@CertList) {
         my $Certificate = $Self->CertificateGet( Filename => $Filename );
-        my %Attributes  = $Self->CertificateAttributes(
+        my %Attributes = $Self->CertificateAttributes(
             Certificate => $Certificate,
             Filename    => $Filename,
         );
@@ -802,6 +802,7 @@ sub FetchFromCustomer {
             my $Cert = $Self->ConvertCertFormat(
                 String => $CustomerUser{UserSMIMECertificate},
             );
+
             my %Result = $Self->CertificateAdd(
                 Certificate => $Cert,
             );
@@ -845,7 +846,7 @@ sub ConvertCertFormat {
         );
         return;
     }
-    my $String     = $Param{String};
+    my $String = $Param{String};
     my $PassPhrase = $Param{Passphrase} // '';
 
     my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
@@ -1061,7 +1062,7 @@ sub CertificateGet {
         return if !$Param{Filename};
     }
 
-    my $File           = "$Self->{CertPath}/$Param{Filename}";
+    my $File = "$Self->{CertPath}/$Param{Filename}";
     my $CertificateRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $File );
 
     return if !$CertificateRef;
@@ -1343,7 +1344,7 @@ sub PrivateSearch {
     FILE:
     for my $File (@Certificates) {
         my $Certificate = $Self->CertificateGet( Filename => $File );
-        my %Attributes  = $Self->CertificateAttributes(
+        my %Attributes = $Self->CertificateAttributes(
             Certificate => $Certificate,
             Filename    => $File,
         );
@@ -1692,6 +1693,10 @@ sub PrivateRemove {
 
         $Self->SignerCertRelationDelete(
             CertFingerprint => $CertificateAttributes{Fingerprint},
+        );
+
+        $Self->SignerCertRelationDelete(
+            CAFingerprint => $CertificateAttributes{Fingerprint},
         );
 
         %Return = (
@@ -2113,16 +2118,21 @@ returns 1 if success
         CAFingerprint   => $CAFingerprint,
     );
 
+    # delete one relation by CAFingerprint
+    $Success = $CryptObject->SignerCertRelationDelete (
+        CAFingerprint   => $CAFingerprint,
+    );
+
 =cut
 
 sub SignerCertRelationDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{CertFingerprint} && !$Param{ID} ) {
+    if ( !$Param{CertFingerprint} && !$Param{ID} && !$Param{CAFingerprint} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need ID or CertFingerprint!'
+            Message  => 'Need ID or CertFingerprint or CAFingerprint!'
         );
         return;
     }
@@ -2154,6 +2164,25 @@ sub SignerCertRelationDelete {
             SQL => 'DELETE FROM smime_signer_cert_relations '
                 . 'WHERE cert_fingerprint = ? AND ca_fingerprint = ?',
             Bind => [ \$Param{CertFingerprint}, \$Param{CAFingerprint} ],
+        );
+
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Message =>
+                    "DB Error, Not possible to delete relation for "
+                    . "CertFingerprint:$Param{CertFingerprint} and CAFingerprint:$Param{CAFingerprint}!",
+                Priority => 'error',
+            );
+        }
+        return $Success;
+    }
+    elsif ( $Param{CAFingerprint} ) {
+
+        # delete one row
+        my $Success = $DBObject->Do(
+            SQL => 'DELETE FROM smime_signer_cert_relations '
+                . 'WHERE ca_fingerprint = ?',
+            Bind => [ \$Param{CAFingerprint} ],
         );
 
         if ( !$Success ) {
