@@ -1103,6 +1103,17 @@ sub CertificateRemove {
 
     my %Result;
 
+    my %CertificateAttributes = $Self->CertificateAttributes(
+        Certificate => $Self->CertificateGet( Filename => $Param{Filename} ),
+        Filename    => $Param{Filename},
+    );
+
+    if (%CertificateAttributes) {
+        $Self->SignerCertRelationDelete(
+            CAFingerprint => $CertificateAttributes{Fingerprint},
+        );
+    }
+
     # private certificate shouldn't exists if certificate is deleted
     # therefor if exists, first remove private certificate
     # if private delete fails abort certificate removing
@@ -1693,10 +1704,6 @@ sub PrivateRemove {
 
         $Self->SignerCertRelationDelete(
             CertFingerprint => $CertificateAttributes{Fingerprint},
-        );
-
-        $Self->SignerCertRelationDelete(
-            CAFingerprint => $CertificateAttributes{Fingerprint},
         );
 
         %Return = (

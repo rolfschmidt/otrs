@@ -293,11 +293,6 @@ $CryptObject->SignerCertRelationAdd(
     CAFingerprint   => $Cert2Attributes{Fingerprint},
     UserID          => 1,
 );
-$CryptObject->SignerCertRelationAdd(
-    CertFingerprint => $Cert2Attributes{Fingerprint},
-    CAFingerprint   => $Cert1Attributes{Fingerprint},
-    UserID          => 1,
-);
 
 @Data = $CryptObject->SignerCertRelationGet(
     CertFingerprint => $Cert1Attributes{Fingerprint},
@@ -307,20 +302,12 @@ $Self->True(
     'Certificate 1 has relations',
 );
 
-@Data = $CryptObject->SignerCertRelationGet(
-    CertFingerprint => $Cert2Attributes{Fingerprint},
-);
-$Self->True(
-    @Data ? 1 : 0,
-    'Certificate 2 has relations',
-);
-
 my $Success = $CryptObject->CertificateRemove(
-    Filename => $Cert1,
+    Filename => $Cert2,
 );
 $Self->True(
     @Data ? 1 : 0,
-    'Certificate 1 got remove',
+    'Certificate 2 got removed',
 );
 
 @Data = $CryptObject->SignerCertRelationGet(
@@ -329,14 +316,6 @@ $Self->True(
 $Self->False(
     @Data ? 1 : 0,
     'Certificate 1 has no relations',
-);
-
-@Data = $CryptObject->SignerCertRelationGet(
-    CertFingerprint => $Cert2Attributes{Fingerprint},
-);
-$Self->False(
-    @Data ? 1 : 0,
-    'Certificate 2 has no relations',
 );
 
 # delete needed test directories
